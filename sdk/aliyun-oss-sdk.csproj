@@ -8,11 +8,17 @@
     <Copyright>Copyright 2012</Copyright>
     <Version>2.8.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>Aliyun.OSS.SDK</PackageId>
+    <PackageId>NetCorePal.Aliyun.OSS.SDK</PackageId>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>aliyun_sdk_net.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>Aliyun.OSS</AssemblyName>
     <RootNamespace>Aliyun.OSS</RootNamespace>
+    <PackageProjectUrl>https://github.com/netcorepal/aliyun-oss-csharp-sdk</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/netcorepal/aliyun-oss-csharp-sdk.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>aliyun oss</PackageTags>
+    <PackageReleaseNotes>+ 阿里云oss  .net standard 2.0 support
+重要: 目前仅对官方代码进行.net standard版本打包，并未在跨平台上做严格单元测试</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

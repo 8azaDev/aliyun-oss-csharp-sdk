@@ -33,7 +33,7 @@ namespace Aliyun.OSS.Common.Communication
         public class HttpAsyncResult : AsyncResult<ServiceResponse>
         {
             public HttpWebRequest WebRequest { get; set; }
-            
+
             public ExecutionContext Context { get; set; }
 
             internal ServiceRequest Request { get; set; }
@@ -63,13 +63,13 @@ namespace Aliyun.OSS.Common.Communication
             private HttpWebResponse _response;
             private readonly Exception _failure;
             private IDictionary<string, string> _headers;
-            
+
             public override HttpStatusCode StatusCode
             {
                 get { return _response.StatusCode; }
             }
-            
-            public override Exception Failure 
+
+            public override Exception Failure
             {
                 get { return _failure; }
             }
@@ -189,7 +189,7 @@ namespace Aliyun.OSS.Common.Communication
 
             var asyncResult = new HttpAsyncResult(callback, state)
             {
-                WebRequest = request, 
+                WebRequest = request,
                 Context = context,
                 Request = serviceRequest
             };
@@ -237,7 +237,7 @@ namespace Aliyun.OSS.Common.Communication
             }
         }
 
-        private static void SetRequestContent(HttpWebRequest webRequest, 
+        private static void SetRequestContent(HttpWebRequest webRequest,
                                               ServiceRequest serviceRequest,
                                               ClientConfiguration clientConfiguration)
         {
@@ -254,7 +254,7 @@ namespace Aliyun.OSS.Common.Communication
             long userSetContentLength = -1;
             if (serviceRequest.Headers.ContainsKey(HttpHeaders.ContentLength))
                 userSetContentLength = long.Parse(serviceRequest.Headers[HttpHeaders.ContentLength]);
-            
+
             if (serviceRequest.UseChunkedEncoding || !data.CanSeek) // when data cannot seek, we have to use chunked encoding as there's no way to set the length
             {
                 webRequest.SendChunked = true;
@@ -298,7 +298,7 @@ namespace Aliyun.OSS.Common.Communication
                 {
                     asyncCallback();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     result.WebRequest.Abort();
                     result.Complete(e);
@@ -346,7 +346,7 @@ namespace Aliyun.OSS.Common.Communication
                             }
                             asyncCallback();
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             result.WebRequest.Abort();
                             result.Complete(e);
@@ -406,7 +406,7 @@ namespace Aliyun.OSS.Common.Communication
             foreach (var h in serviceRequest.Headers)
             {
                 // Nginx does not accept a chunked encoding request with Content-Length, as detailed in #OSS-2848
-                if (h.Key.Equals(HttpHeaders.ContentLength) && (serviceRequest.UseChunkedEncoding || 
+                if (h.Key.Equals(HttpHeaders.ContentLength) && (serviceRequest.UseChunkedEncoding ||
                     (serviceRequest.Content != null && !serviceRequest.Content.CanSeek) || serviceRequest.Content == null))
                 {
                     continue;
@@ -428,7 +428,7 @@ namespace Aliyun.OSS.Common.Communication
             // it will try to load the IE proxy settings including auto proxy detection,
             // which is quite time consuming.
             webRequest.Proxy = null;
-            
+
 
             // Set proxy if proxy settings are specified.
             if (!string.IsNullOrEmpty(configuration.ProxyHost))
@@ -454,7 +454,7 @@ namespace Aliyun.OSS.Common.Communication
     internal static class HttpExtensions
     {
         private static MethodInfo _addInternalMethod;
-        private static readonly ICollection<PlatformID> MonoPlatforms = 
+        private static readonly ICollection<PlatformID> MonoPlatforms =
             new List<PlatformID> { PlatformID.MacOSX, PlatformID.Unix };
         private static bool? _isMonoPlatform;
 
@@ -474,8 +474,12 @@ namespace Aliyun.OSS.Common.Communication
                 // Specify the internal method name for adding headers
                 // mono: AddWithoutValidate
                 // win: AddInternal
-                var internalMethodName = (_isMonoPlatform == true) ? "AddWithoutValidate" : "AddInternal";
-
+                var internalMethodName = (_isMonoPlatform == true) ? "AddWithoutValidate" :
+#if NETSTANDARD2_0
+             "Add";
+#else
+                "AddInternal";
+#endif
                 var mi = typeof(WebHeaderCollection).GetMethod(
                     internalMethodName,
                     BindingFlags.NonPublic | BindingFlags.Instance,

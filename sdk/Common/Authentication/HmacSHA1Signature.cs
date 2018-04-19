@@ -28,7 +28,11 @@ namespace Aliyun.OSS.Common.Authentication
         {
             Debug.Assert(!string.IsNullOrEmpty(data));
 
+#if NETSTANDARD2_0
+            using (var algorithm = new HMACSHA1())
+#else
             using (var algorithm = KeyedHashAlgorithm.Create(SignatureMethod.ToUpperInvariant()))
+#endif
             {
                 algorithm.Key = Encoding.GetBytes(key.ToCharArray());
                 return Convert.ToBase64String(

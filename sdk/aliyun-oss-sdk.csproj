@@ -6,7 +6,7 @@
     <Company>Alibaba Cloud Computing</Company>
     <Description>Aliyun OSS SDK for C#</Description>
     <Copyright>Copyright 2012</Copyright>
-    <Version>2.8.0.1</Version>
+    <Version>2.8.0.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>NetCorePal.Aliyun.OSS.SDK</PackageId>
     <SignAssembly>false</SignAssembly>
@@ -19,6 +19,8 @@
     <PackageTags>aliyun oss</PackageTags>
     <PackageReleaseNotes>+ 阿里云oss  .net standard 2.0 support
 + 修正.net core 下报 Operation is not supported on this platform的问题</PackageReleaseNotes>
+    <AssemblyVersion>2.8.0.0</AssemblyVersion>
+    <FileVersion>2.8.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

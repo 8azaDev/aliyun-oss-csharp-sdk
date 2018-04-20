@@ -411,7 +411,7 @@ namespace Aliyun.OSS.Common.Communication
                 {
                     continue;
                 }
-
+                
                 HttpExtensions.AddInternal(webRequest.Headers, h.Key, h.Value);
             }
 
@@ -476,7 +476,7 @@ namespace Aliyun.OSS.Common.Communication
                 // win: AddInternal
                 var internalMethodName = (_isMonoPlatform == true) ? "AddWithoutValidate" :
 #if NETSTANDARD2_0
-             "Add";
+             "AddWithoutValidate";
 #else
                 "AddInternal";
 #endif
